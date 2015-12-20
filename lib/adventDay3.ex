@@ -1,11 +1,4 @@
 defmodule Day3  do
-    
-   
-   
-#iex(1)> x=%{{0,0}=> 1}
-#iex(8)> x=Dict.update!(x,{0,0},fn x -> x+1 end)
-
-
 
     defp getStep(location,modifier) do 
         {x,y} = location
@@ -37,6 +30,8 @@ defmodule Day3  do
     end
     
     def getHowManyHouses(modifiers) do
-        length (Dict.keys(santaRun(modifiers))) 
+        santaRun(modifiers) 
+            |> Dict.keys 
+            |> length
     end
 end
