@@ -1,5 +1,5 @@
 defmodule Day2Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "Test simple" do
     assert Day2.getSheetSize("2x3x4") == 58

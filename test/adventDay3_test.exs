@@ -1,5 +1,5 @@
 defmodule Day3Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "Test 1 mod" do
     assert Day3.getHowManyHouses('>') == 2

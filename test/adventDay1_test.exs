@@ -1,10 +1,6 @@
 defmodule Day1Test do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
-  test "the truth" do
-    assert 1 + 1 == 2
-  end
-  
   test "floor 0" do
     assert Day1.santaFloor('(())') == 0
     assert Day1.santaFloor('()()') == 0
