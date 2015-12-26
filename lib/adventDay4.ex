@@ -1,12 +1,8 @@
 defmodule Day4 do
 
-  def md5(data) do
-    Base.encode16(:erlang.md5(data), case: :lower)
-  end
+  def md5(data), do: Base.encode16(:erlang.md5(data), case: :lower)
   
-  def getFirstFive(string) do
-    String.slice(string,0..4) |> String.to_char_list
-  end
+  def getFirstFive(string), do: String.slice(string,0..4) |> String.to_char_list
   
   def areThereFiveZeroes(string) do
     isZero=fn x -> x== ?0 end
@@ -27,10 +23,6 @@ defmodule Day4 do
     end
   end
   
-  def findNumber(initial) do
-    findNumber(initial,0)
-  end
+  def findNumber(initial), do: findNumber(initial,0)
 
-  
-  
-end
+  end
