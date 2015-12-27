@@ -1,11 +1,5 @@
 defmodule Day6 do
 
-  # ^([a-z]* [a-z]+) (\d+,\d+) through (\d+,\d+)$
-  def translate(coords) do
-   [x,y]=coords
-   x*1000+y
-  end
-  
   def parse(x) do
     Regex.scan( ~r/^([a-z]+|[a-z ]+) (\d+,\d+) through (\d+,\d+)$/,x) 
     |> List.flatten
@@ -18,34 +12,35 @@ defmodule Day6 do
     |> Enum.map(&elem(&1,0))
   end
   
-  def getLocation(x), do: toCoords(x) |> translate
-  
   def runLights(x,dict) do
-    IO.puts(x)
     [op,from,to] = parse(x)
-    first=getLocation(from)
-    last=getLocation(to)
-    itemsToUpdate=first..last|> Enum.to_list
-    doOperation(itemsToUpdate,op,dict)
+    first=toCoords(from)
+    last=toCoords(to)
+    IO.puts(inspect dict)
+    a=doOperation(first,last,op,dict)
+    IO.puts(inspect a)
+    a
   end
   
-  def initDict(), do: initDict(0..999999|>Enum.to_list,%{})
-  def initDict([],dict), do: dict
-  def initDict(list,dict) do
-    [head|tail]=list
-    dict=Dict.update(dict,head,0,fn x -> 1 end)
-    initDict(tail,dict) 
+  def initDict() do
+   for x <- 0..999, y <- 0..999, into: %{} do: {{x,y}, 0}
   end
-  
-  def doOperation([],op,dict), do: dict
-  def doOperation(list,op,dict) do
-    [key|tail]=list
-    case op do
-        "turn on"  -> dict=Dict.update(dict,key,0,fn x -> 1 end)
-        "turn off" -> dict=Dict.update(dict,key,0,fn x -> 0 end)
-        "toggle"   -> dict=Dict.update(dict,key,0,fn x -> abs(x-1) end)
+  def doOperation(first,last,op,dict) do
+   [xstart,ystart]=first
+   [xend,yend]=last
+        IO.puts("doop")
+        IO.puts(inspect dict)
+    for x <- xstart..xend,
+        y <- ystart..yend do
+        #IO.puts("-------------------doop------------------")
+        #IO.puts(inspect dict)
+        case op do
+            "turn on"  -> dict=Dict.update(dict,{x,y},0,fn x -> 1 end)
+            "turn off" -> dict=Dict.update(dict,{x,y},0,fn x -> 0 end)
+            "toggle"   -> dict=Dict.update(dict,{x,y},0,fn x -> abs(x-1) end)
+        end
     end
-    doOperation(tail,op,dict)
+    dict
   end
   
   def iterateFile([],dict), do: dict
@@ -56,6 +51,8 @@ defmodule Day6 do
   end
   def iterateFile(lines) do
    dict=initDict()
+   IO.puts("iterateFile")
+   IO.puts(inspect dict)
    iterateFile(lines,dict)
   end
    
