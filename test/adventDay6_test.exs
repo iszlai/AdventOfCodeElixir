@@ -9,5 +9,8 @@ defmodule Day6Test do
     assert Day6.iterateFile(["toggle 0,0 through 999,0"]) |> Day6.countLightsOn == 1000
   end
   
-  
+   @tag timeout: 120000
+  test "Test read from file" do
+    assert Day6.solveAdvent() == 400410
+  end
 end

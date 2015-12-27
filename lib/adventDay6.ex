@@ -16,31 +16,34 @@ defmodule Day6 do
     [op,from,to] = parse(x)
     first=toCoords(from)
     last=toCoords(to)
-    IO.puts(inspect dict)
-    a=doOperation(first,last,op,dict)
-    IO.puts(inspect a)
-    a
+    toUpdate=getIndex(first,last)
+    doOperation(toUpdate,op,dict)
   end
   
   def initDict() do
-   for x <- 0..999, y <- 0..999, into: %{} do: {{x,y}, 0}
+   for x <- 0..999, y <- 0..999, into: %{} do
+    {{x,y}, 0}
+   end
   end
-  def doOperation(first,last,op,dict) do
-   [xstart,ystart]=first
-   [xend,yend]=last
-        IO.puts("doop")
-        IO.puts(inspect dict)
+  
+  def getIndex(first, last) do
+    [xstart,ystart]=first
+    [xend,yend]=last
     for x <- xstart..xend,
         y <- ystart..yend do
-        #IO.puts("-------------------doop------------------")
-        #IO.puts(inspect dict)
-        case op do
-            "turn on"  -> dict=Dict.update(dict,{x,y},0,fn x -> 1 end)
-            "turn off" -> dict=Dict.update(dict,{x,y},0,fn x -> 0 end)
-            "toggle"   -> dict=Dict.update(dict,{x,y},0,fn x -> abs(x-1) end)
+        {x,y}
         end
-    end
-    dict
+  end
+  
+  def doOperation([],op,dict), do: dict
+  def doOperation(index,op,dict) do
+        [head|tail]=index
+        case op do
+            "turn on"  -> dict=Dict.update(dict,head,0,fn x -> 1 end)
+            "turn off" -> dict=Dict.update(dict,head,0,fn x -> 0 end)
+            "toggle"   -> dict=Dict.update(dict,head,0,fn x -> abs(x-1) end)
+        end
+    doOperation(tail,op,dict)
   end
   
   def iterateFile([],dict), do: dict
@@ -51,8 +54,6 @@ defmodule Day6 do
   end
   def iterateFile(lines) do
    dict=initDict()
-   IO.puts("iterateFile")
-   IO.puts(inspect dict)
    iterateFile(lines,dict)
   end
    
